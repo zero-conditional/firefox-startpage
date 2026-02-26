@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Tab</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="time-section">
+            <div class="main-time" id="time">00:00</div>
+            <div class="date" id="date">Loading...</div>
+            
+            <!-- Search Bar -->
+            <div class="search-bar" id="search-bar">
+                <input type="text" id="search-input" placeholder="What would you like to search for?" />
+            </div>
+        </div>
+
+        <div class="timezones">
+            <div class="timezone">
+                <div class="timezone-time" id="london-time">00:00</div>
+                <div class="timezone-label">London</div>
+            </div>
+            <div class="timezone">
+                <div class="timezone-time" id="la-time">00:00</div>
+                <div class="timezone-label">Los Angeles</div>
+            </div>
+            <div class="timezone">
+                <div class="timezone-time" id="tokyo-time">00:00</div>
+                <div class="timezone-label">Tokyo</div>
+            </div>
+            <div class="timezone">
+                <div class="timezone-time" id="sydney-time">00:00</div>
+                <div class="timezone-label">Sydney</div>
+            </div>
+        </div>
+
+        <div class="greeting" id="greeting">Good day</div>
+
+        <!-- Link Groups Section -->
+        <div class="link-groups-section">
+            <div class="link-groups-tabs" id="link-groups-tabs">
+                <!-- Tabs will be generated here -->
+            </div>
+
+            <div class="quick-links" id="quick-links">
+                <!-- Links will be loaded from storage -->
+            </div>
+
+            <div class="add-buttons">
+                <button class="add-link-btn" id="add-link-btn">+ Add Link</button>
+                <button class="add-link-btn" id="add-group-btn">+ Add Group</button>
+            </div>
+        </div>
+
+        <!-- Notes Widget -->
+        <div class="notes-widget" id="notes-widget">
+            <textarea id="notes-text" placeholder="Add your notes here..."></textarea>
+        </div>
+
+        <!-- Pomodoro Widget -->
+        <div class="pomodoro-widget" id="pomodoro-widget">
+            <div class="pomodoro-display" id="pomodoro-display">25:00</div>
+            <div class="pomodoro-controls">
+                <button class="pomodoro-btn" id="pomodoro-start">▶</button>
+                <button class="pomodoro-btn" id="pomodoro-pause">⏸</button>
+                <button class="pomodoro-btn" id="pomodoro-reset">↻</button>
+            </div>
+            <div class="pomodoro-mode">
+                <button class="mode-btn active" data-mode="pomodoro">Pomodoro</button>
+                <button class="mode-btn" data-mode="break">Break</button>
+                <button class="mode-btn" data-mode="long">Long Break</button>
+            </div>
+        </div>
+    </div>
+
+    <button class="settings-btn" id="settings-btn">⚙️</button>
+
+    <!-- Add Link Modal -->
+    <div class="modal" id="add-link-modal">
+        <div class="modal-content">
+            <h2>Add Quick Link</h2>
+            <div class="setting-group">
+                <label>Group</label>
+                <select id="link-group">
+                    <!-- Groups will be populated here -->
+                </select>
+            </div>
+            <input type="text" id="link-name" placeholder="Name (e.g., Isengard)" />
+            <input type="text" id="link-url" placeholder="URL (e.g., https://isengard.amazon.com)" />
+            <div class="icon-input-group">
+                <input type="text" id="link-icon" placeholder="Icon (click emoji button or type emoji)" />
+                <button type="button" id="emoji-picker-btn" class="emoji-picker-btn">😀</button>
+            </div>
+            <div id="emoji-picker" class="emoji-picker">
+                <div class="emoji-category">
+                    <div class="emoji-category-label">Common</div>
+                    <div class="emoji-grid">
+                        <span class="emoji-option">🔗</span>
+                        <span class="emoji-option">📊</span>
+                        <span class="emoji-option">🔐</span>
+                        <span class="emoji-option">📞</span>
+                        <span class="emoji-option">📋</span>
+                        <span class="emoji-option">📝</span>
+                        <span class="emoji-option">💬</span>
+                        <span class="emoji-option">📧</span>
+                        <span class="emoji-option">🔍</span>
+                        <span class="emoji-option">⚙️</span>
+                        <span class="emoji-option">📁</span>
+                        <span class="emoji-option">🏠</span>
+                    </div>
+                </div>
+                <div class="emoji-category">
+                    <div class="emoji-category-label">Tech</div>
+                    <div class="emoji-grid">
+                        <span class="emoji-option">☁️</span>
+                        <span class="emoji-option">💻</span>
+                        <span class="emoji-option">🖥️</span>
+                        <span class="emoji-option">📱</span>
+                        <span class="emoji-option">🌐</span>
+                        <span class="emoji-option">🔧</span>
+                        <span class="emoji-option">🛠️</span>
+                        <span class="emoji-option">📈</span>
+                        <span class="emoji-option">📉</span>
+                        <span class="emoji-option">💾</span>
+                        <span class="emoji-option">🗄️</span>
+                        <span class="emoji-option">🔒</span>
+                    </div>
+                </div>
+                <div class="emoji-category">
+                    <div class="emoji-category-label">Symbols</div>
+                    <div class="emoji-grid">
+                        <span class="emoji-option">✅</span>
+                        <span class="emoji-option">❌</span>
+                        <span class="emoji-option">⚡</span>
+                        <span class="emoji-option">🎯</span>
+                        <span class="emoji-option">🚀</span>
+                        <span class="emoji-option">⭐</span>
+                        <span class="emoji-option">💡</span>
+                        <span class="emoji-option">🎨</span>
+                        <span class="emoji-option">📌</span>
+                        <span class="emoji-option">🔔</span>
+                        <span class="emoji-option">🎮</span>
+                        <span class="emoji-option">🏆</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-buttons">
+                <button id="save-link">Save</button>
+                <button id="cancel-link">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Group Modal -->
+    <div class="modal" id="add-group-modal">
+        <div class="modal-content">
+            <h2>Add Link Group</h2>
+            <input type="text" id="group-name" placeholder="Group name (e.g., Work)" />
+            <div class="modal-buttons">
+                <button id="save-group">Save</button>
+                <button id="cancel-group">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal" id="settings-modal">
+        <div class="modal-content modal-wide">
+            <h2>Settings</h2>
+            
+            <div class="settings-tabs">
+                <button class="settings-tab active" data-tab="appearance">Appearance</button>
+                <button class="settings-tab" data-tab="layout">Layout</button>
+            </div>
+
+            <!-- Appearance Tab -->
+            <div class="settings-tab-content active" id="appearance-tab">
+                <div class="setting-group">
+                    <label>Background Type</label>
+                    <select id="background-type">
+                        <option value="gradient">Gradient</option>
+                        <option value="color">Solid Color</option>
+                        <option value="url">Image URL</option>
+                        <option value="local">Local File</option>
+                    </select>
+                </div>
+                
+                <div class="setting-group" id="gradient-settings">
+                    <label>Gradient Style</label>
+                    <select id="gradient-select">
+                        <option value="dark-gray">Dark Gray (Solid)</option>
+                        <option value="dark-gray-subtle">Dark Gray (Gradient)</option>
+                        <option value="purple">Purple</option>
+                        <option value="blue">Blue</option>
+                        <option value="green">Green</option>
+                        <option value="orange">Orange</option>
+                        <option value="dark">Dark</option>
+                    </select>
+                </div>
+                
+                <div class="setting-group" id="color-settings" style="display: none;">
+                    <label>Background Color</label>
+                    <input type="color" id="background-color" value="#161D26" />
+                </div>
+                
+                <div class="setting-group" id="url-settings" style="display: none;">
+                    <label>Image URL</label>
+                    <input type="text" id="background-url" placeholder="https://example.com/image.jpg" />
+                </div>
+                
+                <div class="setting-group" id="local-settings" style="display: none;">
+                    <label>Local Image File</label>
+                    <input type="file" id="background-file" accept="image/*" />
+                    <small>Image will be stored in extension</small>
+                </div>
+
+                <div class="setting-group">
+                    <label>Shadow Intensity</label>
+                    <select id="shadow-intensity">
+                        <option value="none">None</option>
+                        <option value="subtle">Subtle</option>
+                        <option value="medium">Medium (Default)</option>
+                        <option value="strong">Strong</option>
+                    </select>
+                    <small>Applies to links, active tabs, notes, and pomodoro</small>
+                </div>
+            </div>
+
+            <!-- Layout Tab -->
+            <div class="settings-tab-content" id="layout-tab">
+                <div class="setting-group">
+                    <label>Time Display</label>
+                    <select id="time-visibility">
+                        <option value="show">Show</option>
+                        <option value="hide">Hide</option>
+                    </select>
+                </div>
+
+                <div class="setting-group">
+                    <label>Time Alignment</label>
+                    <select id="time-align">
+                        <option value="left">Left</option>
+                        <option value="center">Center</option>
+                        <option value="right">Right</option>
+                    </select>
+                </div>
+
+                <div class="setting-group">
+                    <label>Time Format</label>
+                    <select id="time-format">
+                        <option value="24h">24-hour</option>
+                        <option value="12h">12-hour (AM/PM)</option>
+                    </select>
+                </div>
+
+                <div class="setting-group">
+                    <label>Show Seconds</label>
+                    <select id="show-seconds">
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+
+                <div class="setting-group">
+                    <label>Search Bar</label>
+                    <select id="search-visibility">
+                        <option value="show">Show</option>
+                        <option value="hide">Hide</option>
+                    </select>
+                </div>
+
+                <div class="setting-group">
+                    <label>Time Zones</label>
+                    <select id="timezones-visibility">
+                        <option value="show">Show</option>
+                        <option value="hide">Hide</option>
+                    </select>
+                </div>
+
+                <div class="setting-group">
+                    <label>Time Zones Alignment</label>
+                    <select id="timezones-align">
+                        <option value="left">Left</option>
+                        <option value="center">Center</option>
+                        <option value="right">Right</option>
+                    </select>
+                </div>
+
+                <div class="setting-group">
+                    <label>Link Groups & Links</label>
+                    <select id="links-visibility">
+                        <option value="show">Show</option>
+                        <option value="hide">Hide</option>
+                    </select>
+                </div>
+
+                <div class="setting-group">
+                    <label>Links Alignment</label>
+                    <select id="links-align">
+                        <option value="left">Left</option>
+                        <option value="center">Center</option>
+                        <option value="right">Right</option>
+                    </select>
+                </div>
+
+                <div class="setting-group">
+                    <label>Link Size</label>
+                    <select id="link-size">
+                        <option value="compact">Compact</option>
+                        <option value="small">Small</option>
+                        <option value="medium">Medium</option>
+                        <option value="large">Large</option>
+                    </select>
+                </div>
+
+                <div class="setting-group">
+                    <label>Pomodoro Timer</label>
+                    <select id="pomodoro-visibility">
+                        <option value="show">Show</option>
+                        <option value="hide">Hide</option>
+                    </select>
+                </div>
+
+                <div class="setting-group">
+                    <label>Pomodoro Alignment</label>
+                    <select id="pomodoro-align">
+                        <option value="left">Left</option>
+                        <option value="center">Center</option>
+                        <option value="right">Right</option>
+                    </select>
+                </div>
+
+                <div class="setting-group">
+                    <label>Notes Widget</label>
+                    <select id="notes-visibility">
+                        <option value="show">Show</option>
+                        <option value="hide">Hide</option>
+                    </select>
+                </div>
+
+                <div class="setting-group">
+                    <label>Notes Alignment</label>
+                    <select id="notes-align">
+                        <option value="left">Left</option>
+                        <option value="center">Center</option>
+                        <option value="right">Right</option>
+                    </select>
+                </div>
+
+                <div class="setting-group">
+                    <label>Links Position</label>
+                    <select id="links-position">
+                        <option value="below-greeting">Below Greeting (Default)</option>
+                        <option value="below-time">Below Time</option>
+                        <option value="bottom">Bottom</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="modal-buttons">
+                <button id="save-settings">Save</button>
+                <button id="cancel-settings">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

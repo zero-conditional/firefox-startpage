@@ -1,0 +1,20 @@
+{
+  "manifest_version": 2,
+  "name": "Firefox Startpage",
+  "version": "1.0.0",
+  "description": "A customizable new tab page with quick links, timezones, and productivity tools",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "firefox-startpage@example.com",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
+    }
+  },
+  "chrome_url_overrides": {
+    "newtab": "newtab.html"
+  },
+  "permissions": [
+    "storage"
+  ]
+}
