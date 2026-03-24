@@ -17,12 +17,17 @@ A customizable new tab page for Firefox with quick links, world clocks, and prod
 
 ### From Mozilla Add-ons (recommended for most people)
 
-This extension is published on **Mozilla’s site** (signed by Mozilla). Install it like any other add-on:
+When your add-on has a **public listing** on Mozilla’s site, install it like any other extension:
 
-1. Open [addons.mozilla.org](https://addons.mozilla.org/) and find **Firefox Startpage**, **or** open your add-on’s **listing URL** from [Developer Hub](https://addons.mozilla.org/developers/) (your add-on → **View listing** / copy the public page link).
-2. Click **Add to Firefox**.
+1. Sign in to [Developer Hub](https://addons.mozilla.org/developers/), open your add-on, and use **View listing** (or **View on site**) to open the public page — that page’s URL is the link you can bookmark and share.
+2. On that page, click **Add to Firefox**.
+
+Until you have that public link (for example while the listing is still being prepared or reviewed), use **Temporary load** below for testing on your own machine.
 
 This repository does **not** need to contain a `.xpi` file; Mozilla hosts the signed package.
+
+**Optional:** add your public listing URL here once you have it:  
+`https://addons.mozilla.org/firefox/addon/…` (replace with your real link from Developer Hub).
 
 ### Temporary load (for development only)
 
