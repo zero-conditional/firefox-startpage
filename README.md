@@ -15,14 +15,13 @@ A customizable new tab page for Firefox with quick links, world clocks, and prod
 
 ## Installation
 
-### From Signed .xpi (Recommended)
-1. Download the signed .xpi from releases
-2. Drag into Firefox to install
+There is no signed `.xpi` in this repository yet. Load the add-on temporarily while you develop:
 
-### Manual Installation (Development)
 1. Go to `about:debugging#/runtime/this-firefox`
-2. Click "Load Temporary Add-on..."
+2. Click **Load Temporary Add-on...**
 3. Select `extension/manifest.json`
+
+To distribute to others (or install without “temporary”), zip the `extension/` folder and submit it for signing on [addons.mozilla.org](https://addons.mozilla.org/developers/) (see **Building for Distribution** below).
 
 ## Usage
 
