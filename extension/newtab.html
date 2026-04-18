@@ -49,10 +49,6 @@
                 <!-- Links will be loaded from storage -->
             </div>
 
-            <div class="add-buttons">
-                <button class="add-link-btn" id="add-link-btn">+ Add Link</button>
-                <button class="add-link-btn" id="add-group-btn">+ Add Group</button>
-            </div>
         </div>
 
         <!-- Notes Widget -->
@@ -172,12 +168,13 @@
             <h2>Settings</h2>
             
             <div class="settings-tabs">
-                <button class="settings-tab active" data-tab="appearance">Appearance</button>
-                <button class="settings-tab" data-tab="layout">Layout</button>
+                <button class="settings-tab active" data-tab="general">General</button>
+                <button class="settings-tab" data-tab="links">Links</button>
+                <button class="settings-tab" data-tab="widgets">Widgets</button>
             </div>
 
-            <!-- Appearance Tab -->
-            <div class="settings-tab-content active" id="appearance-tab">
+            <!-- General Tab -->
+            <div class="settings-tab-content active" id="general-tab">
                 <div class="setting-group">
                     <label>Background Type</label>
                     <select id="background-type">
@@ -227,10 +224,72 @@
                     </select>
                     <small>Applies to links, active tabs, notes, and pomodoro</small>
                 </div>
+
+                <div class="setting-group">
+                    <label>Search Bar</label>
+                    <select id="search-visibility">
+                        <option value="show">Show</option>
+                        <option value="hide">Hide</option>
+                    </select>
+                </div>
+
+                <div class="setting-group">
+                    <label>Links Visibility</label>
+                    <select id="links-visibility">
+                        <option value="show">Show</option>
+                        <option value="hide">Hide</option>
+                    </select>
+                </div>
+
+                <div class="setting-group">
+                    <label>Links Alignment</label>
+                    <select id="links-align">
+                        <option value="left">Left</option>
+                        <option value="center">Center</option>
+                        <option value="right">Right</option>
+                    </select>
+                </div>
+
+                <div class="setting-group">
+                    <label>Link Size</label>
+                    <select id="link-size">
+                        <option value="compact">Compact</option>
+                        <option value="small">Small</option>
+                        <option value="medium">Medium</option>
+                        <option value="large">Large</option>
+                    </select>
+                </div>
+
+                <div class="setting-group">
+                    <label>Links Position</label>
+                    <select id="links-position">
+                        <option value="below-greeting">Below Greeting (Default)</option>
+                        <option value="below-time">Below Time</option>
+                        <option value="bottom">Bottom</option>
+                    </select>
+                </div>
             </div>
 
-            <!-- Layout Tab -->
-            <div class="settings-tab-content" id="layout-tab">
+            <!-- Links Tab -->
+            <div class="settings-tab-content" id="links-tab">
+                <div class="settings-section">
+                    <div class="section-header">
+                        <h3>Link Groups</h3>
+                        <button class="add-link-btn" id="add-group-settings">+ Add Group</button>
+                    </div>
+                    <div id="groups-list"></div>
+                </div>
+                <div class="settings-section">
+                    <div class="section-header">
+                        <h3>Links</h3>
+                        <button class="add-link-btn" id="add-link-settings">+ Add Link</button>
+                    </div>
+                    <div id="links-list"></div>
+                </div>
+            </div>
+
+            <!-- Widgets Tab -->
+            <div class="settings-tab-content" id="widgets-tab">
                 <div class="setting-group">
                     <label>Time Display</label>
                     <select id="time-visibility">
@@ -265,14 +324,6 @@
                 </div>
 
                 <div class="setting-group">
-                    <label>Search Bar</label>
-                    <select id="search-visibility">
-                        <option value="show">Show</option>
-                        <option value="hide">Hide</option>
-                    </select>
-                </div>
-
-                <div class="setting-group">
                     <label>Time Zones</label>
                     <select id="timezones-visibility">
                         <option value="show">Show</option>
@@ -286,33 +337,6 @@
                         <option value="left">Left</option>
                         <option value="center">Center</option>
                         <option value="right">Right</option>
-                    </select>
-                </div>
-
-                <div class="setting-group">
-                    <label>Link Groups & Links</label>
-                    <select id="links-visibility">
-                        <option value="show">Show</option>
-                        <option value="hide">Hide</option>
-                    </select>
-                </div>
-
-                <div class="setting-group">
-                    <label>Links Alignment</label>
-                    <select id="links-align">
-                        <option value="left">Left</option>
-                        <option value="center">Center</option>
-                        <option value="right">Right</option>
-                    </select>
-                </div>
-
-                <div class="setting-group">
-                    <label>Link Size</label>
-                    <select id="link-size">
-                        <option value="compact">Compact</option>
-                        <option value="small">Small</option>
-                        <option value="medium">Medium</option>
-                        <option value="large">Large</option>
                     </select>
                 </div>
 
@@ -347,15 +371,6 @@
                         <option value="left">Left</option>
                         <option value="center">Center</option>
                         <option value="right">Right</option>
-                    </select>
-                </div>
-
-                <div class="setting-group">
-                    <label>Links Position</label>
-                    <select id="links-position">
-                        <option value="below-greeting">Below Greeting (Default)</option>
-                        <option value="below-time">Below Time</option>
-                        <option value="bottom">Bottom</option>
                     </select>
                 </div>
             </div>

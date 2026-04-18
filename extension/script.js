@@ -55,8 +55,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     setInterval(updateTime, 1000);
     
     // Event listeners
-    document.getElementById('add-link-btn').addEventListener('click', openAddLinkModal);
-    document.getElementById('add-group-btn').addEventListener('click', openAddGroupModal);
     document.getElementById('settings-btn').addEventListener('click', openSettingsModal);
     document.getElementById('save-link').addEventListener('click', saveLink);
     document.getElementById('cancel-link').addEventListener('click', closeAddLinkModal);
@@ -64,6 +62,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('cancel-group').addEventListener('click', closeAddGroupModal);
     document.getElementById('save-settings').addEventListener('click', saveSettings);
     document.getElementById('cancel-settings').addEventListener('click', closeSettingsModal);
+    document.getElementById('add-link-settings').addEventListener('click', openAddLinkModal);
+    document.getElementById('add-group-settings').addEventListener('click', openAddGroupModal);
     
     // Notes auto-save
     document.getElementById('notes-text').addEventListener('input', (e) => {
@@ -333,27 +333,6 @@ function renderGroups() {
         tab.className = `group-tab ${group === activeGroup ? 'active' : ''}`;
         tab.textContent = group;
         
-        // Edit button
-        const editBtn = document.createElement('button');
-        editBtn.className = 'edit-group';
-        editBtn.textContent = '✏️';
-        editBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            editGroup(group);
-        });
-        tab.appendChild(editBtn);
-        
-        // Delete button
-        const deleteBtn = document.createElement('button');
-        deleteBtn.className = 'delete-group';
-        deleteBtn.textContent = '×';
-        deleteBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            deleteGroup(group);
-        });
-        tab.appendChild(deleteBtn);
-        
-        // Click to switch group
         tab.addEventListener('click', () => {
             activeGroup = group;
             saveGroupsToStorage();
@@ -378,107 +357,48 @@ function renderLinks() {
     
     const groupLinks = links.filter(link => link.group === activeGroup);
     
-    groupLinks.forEach((link, index) => {
+    groupLinks.forEach((link) => {
         const linkEl = document.createElement('a');
         linkEl.href = link.url;
         linkEl.className = 'link-item size-' + (settings.linkSize || 'compact');
         linkEl.target = '_blank';
         linkEl.rel = 'noopener noreferrer';
-        linkEl.draggable = true;
         
-        const actualIndex = links.indexOf(link);
-        linkEl.dataset.index = actualIndex;
-        
-        // Check if icon is a URL (starts with http) or emoji/text
         const isIconUrl = link.icon && (link.icon.startsWith('http://') || link.icon.startsWith('https://'));
         
         if (isIconUrl) {
-            // For URL icons, only try direct fetch (no external services)
             const iconImg = document.createElement('img');
             iconImg.src = link.icon;
             iconImg.alt = '';
             iconImg.className = 'link-icon-img';
-            
+
             const fallbackIcon = document.createElement('span');
             fallbackIcon.className = 'link-icon';
             fallbackIcon.style.display = 'none';
             fallbackIcon.textContent = '🔗';
-            
-            // Simple error handler - just show emoji fallback
+
             iconImg.addEventListener('error', function handleError() {
                 this.style.display = 'none';
                 fallbackIcon.style.display = 'inline';
             });
-            
+
             const linkText = document.createElement('span');
             linkText.className = 'link-text';
             linkText.textContent = link.name;
-            
-            const editBtn = document.createElement('button');
-            editBtn.className = 'edit-link';
-            editBtn.dataset.index = actualIndex;
-            editBtn.title = 'Edit link';
-            editBtn.textContent = '✏️';
-            
-            const refreshBtn = document.createElement('button');
-            refreshBtn.className = 'refresh-link';
-            refreshBtn.dataset.index = actualIndex;
-            refreshBtn.title = 'Refresh icon';
-            refreshBtn.textContent = '↻';
-            
-            const deleteBtn = document.createElement('button');
-            deleteBtn.className = 'delete-link';
-            deleteBtn.dataset.index = actualIndex;
-            deleteBtn.textContent = '×';
-            
+
             linkEl.appendChild(iconImg);
             linkEl.appendChild(fallbackIcon);
             linkEl.appendChild(linkText);
-            linkEl.appendChild(editBtn);
-            linkEl.appendChild(refreshBtn);
-            linkEl.appendChild(deleteBtn);
         } else {
-            // For emoji/text icons
             linkEl.innerHTML = `
                 <span class="link-icon">${link.icon || '🔗'}</span>
                 <span class="link-text">${link.name}</span>
-                <button class="edit-link" data-index="${actualIndex}" title="Edit link">✏️</button>
-                <button class="refresh-link" data-index="${actualIndex}" title="Refresh icon">↻</button>
-                <button class="delete-link" data-index="${actualIndex}">×</button>
             `;
         }
-        
-        // Edit button
-        linkEl.querySelector('.edit-link').addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            editLink(actualIndex);
-        });
-        
-        // Refresh button
-        linkEl.querySelector('.refresh-link').addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            refreshLinkIcon(actualIndex);
-        });
-        
-        // Delete button
-        linkEl.querySelector('.delete-link').addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            deleteLink(actualIndex);
-        });
-        
-        // Drag and drop events
-        linkEl.addEventListener('dragstart', handleDragStart);
-        linkEl.addEventListener('dragover', handleDragOver);
-        linkEl.addEventListener('drop', handleDrop);
-        linkEl.addEventListener('dragend', handleDragEnd);
-        
+
         container.appendChild(linkEl);
     });
     
-    // Reapply shadows to links
     applyShadows();
 }
 
@@ -541,13 +461,75 @@ function updateGroupDropdown() {
     });
 }
 
+function renderSettingsLinksTab() {
+    const groupsContainer = document.getElementById('groups-list');
+    const linksContainer = document.getElementById('links-list');
+    if (!groupsContainer || !linksContainer) return;
+
+    groupsContainer.innerHTML = '';
+    linksContainer.innerHTML = '';
+
+    groups.forEach(group => {
+        const groupRow = document.createElement('div');
+        groupRow.className = 'settings-list-item';
+        groupRow.innerHTML = `
+            <div class="settings-list-details">
+                <strong>${group}</strong>
+            </div>
+            <div class="settings-list-actions">
+                <button type="button" class="settings-action-btn" data-action="edit-group" data-group="${group}">Edit</button>
+                <button type="button" class="settings-action-btn delete" data-action="delete-group" data-group="${group}">Delete</button>
+            </div>
+        `;
+        
+        groupRow.querySelector('[data-action="edit-group"]').addEventListener('click', () => editGroup(group));
+        groupRow.querySelector('[data-action="delete-group"]').addEventListener('click', () => deleteGroup(group));
+        groupsContainer.appendChild(groupRow);
+    });
+
+    if (links.length === 0) {
+        linksContainer.innerHTML = '<div class="settings-empty">No links added yet.</div>';
+    } else {
+        links.forEach((link, index) => {
+            const linkRow = document.createElement('div');
+            linkRow.className = 'settings-list-item';
+            linkRow.innerHTML = `
+                <div class="settings-list-details">
+                    <strong>${link.name}</strong>
+                    <div class="settings-list-meta">${link.url}</div>
+                    <div class="settings-list-meta">Group: ${link.group || 'Main'}</div>
+                </div>
+                <div class="settings-list-actions">
+                    <button type="button" class="settings-action-btn" data-action="edit-link" data-index="${index}">Edit</button>
+                    <button type="button" class="settings-action-btn delete" data-action="delete-link" data-index="${index}">Delete</button>
+                </div>
+            `;
+            
+            linkRow.querySelector('[data-action="edit-link"]').addEventListener('click', () => editLink(index));
+            linkRow.querySelector('[data-action="delete-link"]').addEventListener('click', () => deleteLink(index));
+            linksContainer.appendChild(linkRow);
+        });
+    }
+}
+
 // Modal functions
-function openAddLinkModal() {
+function openAddLinkModal(resetSaveButton = true, resetFields = true) {
     document.getElementById('add-link-modal').classList.add('active');
-    document.getElementById('link-name').value = '';
-    document.getElementById('link-url').value = '';
-    document.getElementById('link-icon').value = '';
+
+    if (resetFields) {
+        document.getElementById('link-name').value = '';
+        document.getElementById('link-url').value = '';
+        document.getElementById('link-icon').value = '';
+    }
     document.getElementById('link-name').focus();
+
+    if (resetSaveButton) {
+        const saveBtn = document.getElementById('save-link');
+        saveBtn.textContent = 'Save';
+        const newSaveBtn = saveBtn.cloneNode(true);
+        saveBtn.parentNode.replaceChild(newSaveBtn, saveBtn);
+        newSaveBtn.addEventListener('click', saveLink);
+    }
 }
 
 function closeAddLinkModal() {
@@ -567,6 +549,12 @@ function closeAddGroupModal() {
 function openSettingsModal() {
     document.getElementById('settings-modal').classList.add('active');
     
+    document.querySelectorAll('.settings-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.settings-tab-content').forEach(c => c.classList.remove('active'));
+    const linksTab = document.querySelector('.settings-tab[data-tab="links"]');
+    if (linksTab) linksTab.classList.add('active');
+    document.getElementById('links-tab').classList.add('active');
+
     // Load background settings
     document.getElementById('background-type').value = settings.backgroundType || 'gradient';
     document.getElementById('gradient-select').value = settings.gradient;
@@ -622,6 +610,8 @@ function openSettingsModal() {
     } else {
         document.getElementById('links-position').value = 'below-greeting';
     }
+
+    renderSettingsLinksTab();
 }
 
 function closeSettingsModal() {
@@ -662,6 +652,7 @@ function saveLink() {
     links.push({ name, url: finalUrl, icon, group });
     saveLinksToStorage();
     renderLinks();
+    renderSettingsLinksTab();
     closeAddLinkModal();
 }
 
@@ -683,6 +674,7 @@ function saveGroup() {
     saveGroupsToStorage();
     renderGroups();
     renderLinks();
+    renderSettingsLinksTab();
     closeAddGroupModal();
 }
 
@@ -691,6 +683,7 @@ function deleteLink(index) {
         links.splice(index, 1);
         saveLinksToStorage();
         renderLinks();
+        renderSettingsLinksTab();
     }
 }
 
@@ -737,7 +730,7 @@ function editLink(index) {
         resetBtn.addEventListener('click', saveLink);
     });
     
-    openAddLinkModal();
+    openAddLinkModal(false, false);
 }
 
 function refreshLinkIcon(index) {
@@ -775,6 +768,7 @@ function deleteGroup(group) {
         saveLinksToStorage();
         renderGroups();
         renderLinks();
+        renderSettingsLinksTab();
     }
 }
 
@@ -810,6 +804,7 @@ function editGroup(oldName) {
     saveLinksToStorage();
     renderGroups();
     renderLinks();
+    renderSettingsLinksTab();
 }
 
 function saveSettings() {

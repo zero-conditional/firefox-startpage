@@ -451,7 +451,7 @@ body.has-background-image {
     border: 1px solid rgba(255, 255, 255, 0.2);
     min-width: 0;
     position: relative;
-    cursor: grab;
+    cursor: pointer;
     justify-content: flex-start;
     font-size: 13px;
     line-height: 1;
@@ -640,6 +640,85 @@ body.has-background-image {
 .add-link-btn:hover {
     background: rgba(255, 255, 255, 0.25);
     transform: scale(1.05);
+}
+
+/* Settings modal specific button styles */
+#settings-modal .add-link-btn {
+    background: #667eea;
+    color: white;
+    border: 1px solid #5568d3;
+}
+
+#settings-modal .add-link-btn:hover {
+    background: #5568d3;
+    transform: scale(1.05);
+}
+
+.settings-section {
+    margin-bottom: 24px;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.settings-list-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 16px;
+    margin-bottom: 0;
+    border-bottom: 1px solid #e0e0e0;
+    background: #fbfbfb;
+}
+
+.settings-list-item:last-child {
+    border-bottom: none;
+}
+
+.settings-list-details {
+    flex: 1;
+}
+
+.settings-list-meta {
+    font-size: 13px;
+    color: #666;
+    margin-top: 4px;
+}
+
+.settings-list-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.settings-action-btn {
+    border: 1px solid #d0d0d0;
+    background: #fff;
+    color: #333;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.settings-action-btn.delete {
+    background: #ffe8e8;
+    border-color: #f5c2c2;
+}
+
+.settings-empty {
+    color: #666;
+    font-size: 14px;
+    padding: 12px;
+    background: #f7f7f7;
+    border: 1px dashed #ddd;
+    border-radius: 12px;
 }
 
 /* Settings Button */
