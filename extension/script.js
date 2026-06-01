@@ -390,10 +390,14 @@ function renderLinks() {
             linkEl.appendChild(fallbackIcon);
             linkEl.appendChild(linkText);
         } else {
-            linkEl.innerHTML = `
-                <span class="link-icon">${link.icon || '🔗'}</span>
-                <span class="link-text">${link.name}</span>
-            `;
+            const iconSpan = document.createElement('span');
+            iconSpan.className = 'link-icon';
+            iconSpan.textContent = link.icon || '🔗';
+            const textSpan = document.createElement('span');
+            textSpan.className = 'link-text';
+            textSpan.textContent = link.name;
+            linkEl.appendChild(iconSpan);
+            linkEl.appendChild(textSpan);
         }
 
         container.appendChild(linkEl);
@@ -472,18 +476,31 @@ function renderSettingsLinksTab() {
     groups.forEach(group => {
         const groupRow = document.createElement('div');
         groupRow.className = 'settings-list-item';
-        groupRow.innerHTML = `
-            <div class="settings-list-details">
-                <strong>${group}</strong>
-            </div>
-            <div class="settings-list-actions">
-                <button type="button" class="settings-action-btn" data-action="edit-group" data-group="${group}">Edit</button>
-                <button type="button" class="settings-action-btn delete" data-action="delete-group" data-group="${group}">Delete</button>
-            </div>
-        `;
-        
-        groupRow.querySelector('[data-action="edit-group"]').addEventListener('click', () => editGroup(group));
-        groupRow.querySelector('[data-action="delete-group"]').addEventListener('click', () => deleteGroup(group));
+
+        const gDetails = document.createElement('div');
+        gDetails.className = 'settings-list-details';
+        const gStrong = document.createElement('strong');
+        gStrong.textContent = group;
+        gDetails.appendChild(gStrong);
+
+        const gActions = document.createElement('div');
+        gActions.className = 'settings-list-actions';
+        const gEditBtn = document.createElement('button');
+        gEditBtn.type = 'button';
+        gEditBtn.className = 'settings-action-btn';
+        gEditBtn.textContent = 'Edit';
+        const gDeleteBtn = document.createElement('button');
+        gDeleteBtn.type = 'button';
+        gDeleteBtn.className = 'settings-action-btn delete';
+        gDeleteBtn.textContent = 'Delete';
+        gActions.appendChild(gEditBtn);
+        gActions.appendChild(gDeleteBtn);
+
+        groupRow.appendChild(gDetails);
+        groupRow.appendChild(gActions);
+
+        gEditBtn.addEventListener('click', () => editGroup(group));
+        gDeleteBtn.addEventListener('click', () => deleteGroup(group));
         groupsContainer.appendChild(groupRow);
     });
 
@@ -493,20 +510,39 @@ function renderSettingsLinksTab() {
         links.forEach((link, index) => {
             const linkRow = document.createElement('div');
             linkRow.className = 'settings-list-item';
-            linkRow.innerHTML = `
-                <div class="settings-list-details">
-                    <strong>${link.name}</strong>
-                    <div class="settings-list-meta">${link.url}</div>
-                    <div class="settings-list-meta">Group: ${link.group || 'Main'}</div>
-                </div>
-                <div class="settings-list-actions">
-                    <button type="button" class="settings-action-btn" data-action="edit-link" data-index="${index}">Edit</button>
-                    <button type="button" class="settings-action-btn delete" data-action="delete-link" data-index="${index}">Delete</button>
-                </div>
-            `;
-            
-            linkRow.querySelector('[data-action="edit-link"]').addEventListener('click', () => editLink(index));
-            linkRow.querySelector('[data-action="delete-link"]').addEventListener('click', () => deleteLink(index));
+
+            const lDetails = document.createElement('div');
+            lDetails.className = 'settings-list-details';
+            const lStrong = document.createElement('strong');
+            lStrong.textContent = link.name;
+            const lUrl = document.createElement('div');
+            lUrl.className = 'settings-list-meta';
+            lUrl.textContent = link.url;
+            const lGroup = document.createElement('div');
+            lGroup.className = 'settings-list-meta';
+            lGroup.textContent = 'Group: ' + (link.group || 'Main');
+            lDetails.appendChild(lStrong);
+            lDetails.appendChild(lUrl);
+            lDetails.appendChild(lGroup);
+
+            const lActions = document.createElement('div');
+            lActions.className = 'settings-list-actions';
+            const lEditBtn = document.createElement('button');
+            lEditBtn.type = 'button';
+            lEditBtn.className = 'settings-action-btn';
+            lEditBtn.textContent = 'Edit';
+            const lDeleteBtn = document.createElement('button');
+            lDeleteBtn.type = 'button';
+            lDeleteBtn.className = 'settings-action-btn delete';
+            lDeleteBtn.textContent = 'Delete';
+            lActions.appendChild(lEditBtn);
+            lActions.appendChild(lDeleteBtn);
+
+            linkRow.appendChild(lDetails);
+            linkRow.appendChild(lActions);
+
+            lEditBtn.addEventListener('click', () => editLink(index));
+            lDeleteBtn.addEventListener('click', () => deleteLink(index));
             linksContainer.appendChild(linkRow);
         });
     }
