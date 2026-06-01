@@ -34,7 +34,7 @@ let settings = {
     linksAlign: 'center',
     pomodoroAlign: 'center',
     notesAlign: 'center',
-    linkSize: 'compact',
+    linkSize: 'medium',
     timeFormat: '24h',
     showSeconds: true
 };
